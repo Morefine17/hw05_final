@@ -5,6 +5,7 @@ from datetime import timedelta
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -82,9 +83,7 @@ class PostsPageTest(TestCase):
 
     def setUp(self):
         self.authorized_client = Client()
-        self.authorized_client_un = Client()
         self.authorized_client.force_login(self.user)
-        self.authorized_client_un.force_login(self.user)
         time_update = []
         for i, post in enumerate(Post.objects.all()):
             self.post_page[i].pub_date += timedelta(hours=i)
@@ -93,6 +92,7 @@ class PostsPageTest(TestCase):
 
     def comparing_posts_in_context(self, response, response_second_page):
         sort = Post.objects.all().order_by('-pub_date')
+        cache.clear()
         for i, cont in enumerate(response.context['page_obj'].object_list):
             self.assertEqual(cont.text, sort[i].text)
             self.assertEqual(cont.author, sort[i].author)
@@ -104,7 +104,6 @@ class PostsPageTest(TestCase):
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         templates_pages_name = {
-            reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
                     kwargs={'slug': self.group.slug}): 'posts/group_list.html',
             reverse('posts:profile',
@@ -196,8 +195,3 @@ class PostsPageTest(TestCase):
             reverse('posts:group_list', kwargs={'slug': self.group_more.slug}))
         self.assertEqual(len(response.context['page_obj']), 0)
 
-    def test_page_with_image(self):
-        response = self.authorized_client.get(reverse('posts:index'))
-        sort = Post.objects.all().order_by('-pub_date')
-        post = response.context['page_obj'].object_list[0]
-        self.assertEqual(post.image, sort[0].image)

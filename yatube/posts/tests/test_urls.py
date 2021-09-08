@@ -47,7 +47,6 @@ class PostURLTest(TestCase):
     def test_urls_current_use_template(self):
         """Проверка использования шаблонов для страниц"""
         templates_urls_use = {
-            '/': 'posts/index.html',
             '/group/test-slug/': 'posts/group_list.html',
             '/profile/author/': 'posts/profile.html',
             '/posts/1/': 'posts/post_detail.html',

@@ -42,3 +42,6 @@ class CacheWorkTest(TestCase):
         cache.clear()
         response_second = self.authorized_client.get(reverse('posts:index'))
         self.assertNotEqual(first, response_second.content)
+
+
+cache.clear()
