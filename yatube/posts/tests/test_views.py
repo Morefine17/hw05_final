@@ -194,4 +194,3 @@ class PostsPageTest(TestCase):
         response = self.authorized_client.get(
             reverse('posts:group_list', kwargs={'slug': self.group_more.slug}))
         self.assertEqual(len(response.context['page_obj']), 0)
-
