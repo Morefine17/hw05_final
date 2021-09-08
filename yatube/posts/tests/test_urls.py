@@ -36,7 +36,7 @@ class PostURLTest(TestCase):
         list_html_status = {
             '/': 200,
             '/group/test-slug/': 200,
-            '/profile/author/': 302,
+            '/profile/author/': 200,
             '/posts/1/': 200,
         }
         for adress, status_code in list_html_status.items():
