@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -36,7 +35,6 @@ def group_posts(request, slug):
     return render(request, template, context)
 
 
-@login_required
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts_profile = author.posts.all().order_by('-pub_date')
@@ -61,12 +59,12 @@ def post_detail(request, post_id):
     selected_post = get_object_or_404(Post, id=post_id)
     author = selected_post.author
     posts_count = author.posts.count()
-
+    form = CommentForm()
     context = {
         'selected_post': selected_post,
         'author': author,
         'posts_count': posts_count,
-        'form': CommentForm,
+        'form': form,
         'comments': selected_post.comments.all(),
         'post_id': post_id
     }
