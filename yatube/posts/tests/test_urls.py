@@ -7,12 +7,12 @@ User = get_user_model()
 
 
 class PostURLTest(TestCase):
-    
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.group = Group.objects.create(
-            title = 'Тест групп',
+            title='Тест групп',
             slug='test-slug'
         )
         cls.user_more = User.objects.create_user(username='test')
@@ -30,8 +30,7 @@ class PostURLTest(TestCase):
         cls.authorized_client = Client()
         cls.authorized_client.force_login(cls.user)
         cls.guest_client = Client()
-   
-   
+
     def test_availability_check_all(self):
         """Проверка доступности стр. неавтор-му польз-ю"""
         list_html_status = {
@@ -44,7 +43,7 @@ class PostURLTest(TestCase):
             with self.subTest(adress=adress):
                 response = self.guest_client.get(adress)
                 self.assertEqual(response.status_code, status_code)
-    
+
     def test_urls_current_use_template(self):
         """Проверка использования шаблонов для страниц"""
         templates_urls_use = {

@@ -9,7 +9,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from ..models import Group, Post, Follow
+from ..models import Group, Post
 
 User = get_user_model()
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
@@ -201,4 +201,3 @@ class PostsPageTest(TestCase):
         sort = Post.objects.all().order_by('-pub_date')
         post = response.context['page_obj'].object_list[0]
         self.assertEqual(post.image, sort[0].image)
-    

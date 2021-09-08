@@ -1,11 +1,12 @@
 from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
-from ..models import Post, Follow
+from ..models import Follow
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 class FollowTest(TestCase):
     def setUp(self):
@@ -16,7 +17,6 @@ class FollowTest(TestCase):
         self.authorized_client_two = Client()
         self.authorized_client.force_login(self.user)
         self.authorized_client_two.force_login(self.user_two)
-        
 
     def test_following_author(self):
 
@@ -25,8 +25,7 @@ class FollowTest(TestCase):
 
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertEqual(len(response.context['page_obj']), 0)
-    
-    
+
     def test_authorized_can_unfollow(self):
 
         """Авторизованный пользователь может отписываться от других
@@ -56,4 +55,3 @@ class FollowTest(TestCase):
                                                }))
         # проверяем кол-во записей в подписках
         self.assertEqual(Follow.objects.all().count(), count_follow + 1)
-  

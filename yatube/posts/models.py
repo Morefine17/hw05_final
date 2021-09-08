@@ -31,7 +31,7 @@ class Post(models.Model):
         blank=True,
         help_text='Изображение, которое относится к посту'
     )
-                           
+
     class Meta:
         ordering = ('-pub_date',)
         verbose_name = 'Пост'
