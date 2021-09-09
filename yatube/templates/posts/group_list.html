@@ -28,7 +28,7 @@
    <img class="card-img my-2" src="{{ im.url }}">
   {% endthumbnail %}
   <p>{{ post.text|linebreaksbr }}</p>
-  {% if not forloop.last %}<hr>{% endif %}
+  <hr>
 {% endfor %}
 {% include 'posts/includes/paginator.html' %}
 {% endblock %}

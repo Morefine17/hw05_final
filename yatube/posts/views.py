@@ -10,7 +10,7 @@ from .models import Group, Post, User, Follow
 
 @cache_page(20)
 def index(request):
-    posts_list = Post.objects.all().order_by('-pub_date')
+    posts_list = Post.objects.all()
     paginator = Paginator(posts_list, settings.TOTAL_POSTS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -38,7 +38,6 @@ def group_posts(request, slug):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts_profile = author.posts.all().order_by('-pub_date')
-    posts_count = posts_profile.count()
     paginator = Paginator(posts_profile, settings.TOTAL_POSTS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -49,7 +48,6 @@ def profile(request, username):
     context = {
         'author': author,
         'page_obj': page_obj,
-        'posts_count': posts_count,
         'following': following,
     }
     return render(request, 'posts/profile.html', context)
