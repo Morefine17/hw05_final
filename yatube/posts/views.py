@@ -4,8 +4,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 
-from .forms import PostForm, CommentForm
-from .models import Group, Post, User, Follow
+from .forms import CommentForm, PostForm
+from .models import Follow, Group, Post, User
 
 
 @cache_page(20)
@@ -56,14 +56,12 @@ def profile(request, username):
 def post_detail(request, post_id):
     selected_post = get_object_or_404(Post, id=post_id)
     author = selected_post.author
-    posts_count = author.posts.count()
+
     form = CommentForm()
     context = {
         'selected_post': selected_post,
         'author': author,
-        'posts_count': posts_count,
         'form': form,
-        'comments': selected_post.comments.all(),
         'post_id': post_id
     }
     return render(request, 'posts/post_detail.html', context)

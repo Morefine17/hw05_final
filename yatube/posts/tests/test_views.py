@@ -161,7 +161,6 @@ class PostsPageTest(TestCase):
         self.assertEqual(response.context.get(
             'selected_post').group.description, self.group.description)
         self.assertEqual(response.context.get('author'), self.user)
-        self.assertEqual(response.context.get('posts_count'), 13)
 
     def test_post_create_current_context(self):
         """Шаблон post_create сформирован с правильным контекстом."""

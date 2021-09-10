@@ -19,7 +19,7 @@ class Group(models.Model):
 
 
 class Post(models.Model):
-    text = models.TextField("Текст", help_text='Поле для текста')
+    text = models.TextField("Текст", help_text="Поле для текста")
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
     author = models.ForeignKey(
         User,
@@ -30,10 +30,10 @@ class Post(models.Model):
     group = models.ForeignKey(
         Group,
         verbose_name="Группа",
-        help_text='Поле группы',
+        help_text="Поле группы",
         on_delete=models.SET_NULL,
         blank=True, null=True,
-        related_name='posts'
+        related_name="posts"
     )
     image = models.ImageField(
         'Картинка',
